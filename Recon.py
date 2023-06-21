@@ -3,6 +3,8 @@ import dns.resolver
 import requests
 import Misc
 import os
+from alive_progress import alive_bar
+import urllib.request
 
 class Recon:
     def who_is(website, path):
@@ -24,6 +26,8 @@ class Recon:
                 print(f"{whoisresult}\n")
 
     def dns_enum(website, path):
+        website = website.strip("https://")
+        website = website.strip("http://")
         with open(f"{path}/DNS_Enum.txt","w") as dnsenumfile:
             print("Initializing DNS Enumeration...\n")
             dnsenumfile.write("DNS Enumeration Results:\n\n")
@@ -42,8 +46,10 @@ class Recon:
             print("\n")
 
     def subdomains(website, path):
+        website = website.strip("https://")
+        website = website.strip("http://")
         with open(f"{path}/Subdomains.txt","w") as subdomainsfile:
-            with open(f"Recon/subdomains.txt","r") as listfile:
+            with open(f"Lists/subdomains.txt","r") as listfile:
                 print("Initializing Subdomain Bruteforce...\n")
                 subdomainsfile.write("Subdomain Bruteforce Results:\n\n")
                 content = listfile.read()
@@ -60,20 +66,61 @@ class Recon:
                         subdomainsfile.write(f"[+] Discovered subdomain: {url}\n")
                         discovered_subdomains.append(url)
 
+    def dir_buster(website, path): 
+        with open(f"{os.getcwd()}/Lists/dirs.txt","r") as file:
+            counter = 0
+            for line in file:
+                counter += 1
+        with open(f"{os.getcwd()}/Lists/dirs.txt","r") as file:
+            with alive_bar(counter) as bar:
+                with open(f"{path}/dirs.txt","w") as res:       
+                    print("\b\b\b\b\b\b\b\nRunning Dir Brute Force Abuse...\n")
+                    res.writelines("Running Dir Brute Force Abuse...\n\n")
+                    print(f"\b\b\b\b\b\b\bUsing List: {os.getcwd()}/Lists/dirs.txt\n\n")
+                    res.writelines(f"Using List: {os.getcwd()}/Lists/dirs.txt\n")
+                    for line in file:
+                        try:
+                            line = line.strip("\n")
+                            code = urllib.request.urlopen(f'{website}/{line}').getcode()
+                            print(f"\b\b\b\b\b\b\b\b[+] {website}/{line} CODE: {code}")
+                            res.writelines(f"[+] {website}/{line} CODE: {code}\n")
+                            bar()
+                        except Exception as e:
+                            e = str(e)
+                            code = e.split(" ")[2]
+                            code = code.strip(":")
+                            if code != "404":
+                                if code.isnumeric():
+                                    print(f"\b\b\b\b\b\b\b\b[+] {website}/{line} CODE: {code}")
+                                    res.writelines(f"[+] {website}/{line} CODE: {code}\n")
+                            bar()
+
     def init_scanner(choise, path):
         website = input("\nEnter A Domain To Scan: ")
         Misc.Misc.clear_screen()
         print("\n")
-        if choise == 1:
+        if choise == '1':
             Misc.Misc.clear_screen()
+            Recon.who_is(website, path)
+        elif choise == '2':
+            Misc.Misc.clear_screen()
+            Recon.dns_enum(website, path)
+        elif choise == '3':
+            Misc.Misc.clear_screen()  
+            Recon.subdomains(website, path)
+        elif choise == '4':
+            Misc.Misc.clear_screen() 
+            Recon.dir_buster(website)
+        elif choise == '5':
+            Misc.Misc.clear_screen() 
             Recon.who_is(website, path)
             Recon.dns_enum(website, path)
-        elif choise == 2:
-            Misc.Misc.clear_screen()
             Recon.subdomains(website, path)
+            Recon.dir_buster(website, path)
         else:
-            Misc.Misc.clear_screen()
-            Recon.who_is(website, path)
-            Recon.dns_enum(website, path)  
-            Recon.subdomains(website, path)
+            Misc.Misc.clear_screen() 
+            print("bad input!")
+            exit()
 
+    
+    
