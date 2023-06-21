@@ -13,15 +13,15 @@ class MyDirBuster:
         with open(f"{os.getcwd()}/Lists/dirs.txt","r") as file:
             with alive_bar(counter) as bar:
                 with open(f"{path}/dirs.txt","w") as res:       
-                    print("Running Dir Brute Force Abuse...\n")
+                    print("\b\b\b\b\b\b\bRunning Dir Brute Force Abuse...\n")
                     res.writelines("Running Dir Brute Force Abuse...\n\n")
-                    print(f"Using List: {os.getcwd()}/Lists/dirs.txt\n")
+                    print(f"\b\b\b\b\b\b\bUsing List: {os.getcwd()}/Lists/dirs.txt\n")
                     res.writelines(f"Using List: {os.getcwd()}/Lists/dirs.txt\n")
                     for line in file:
                         try:
                             line = line.strip("\n")
                             code = urllib.request.urlopen(f'{domain}/{line}').getcode()
-                            print(f"{domain}/{line} CODE: {code}")
+                            print(f"\b\b\b\b\b\b\b\b[+] {domain}/{line} CODE: {code}")
                             res.writelines(f"[+] {domain}/{line} CODE: {code}\n")
                             bar()
                         except Exception as e:
@@ -30,7 +30,7 @@ class MyDirBuster:
                             code = code.strip(":")
                             if code != "404":
                                 if code.isnumeric():
-                                    print(f"{domain}/{line} CODE: {code}")
+                                    print(f"\b\b\b\b\b\b\b\b[+] {domain}/{line} CODE: {code}")
                                     res.writelines(f"[+] {domain}/{line} CODE: {code}\n")
                             bar()
                             
