@@ -124,6 +124,6 @@ class main():
         if choise == '3':
             BruteForceMenus.dir_buster_menu()
             break
-            
+
 
 main()
