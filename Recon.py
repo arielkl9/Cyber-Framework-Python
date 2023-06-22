@@ -110,7 +110,7 @@ class Recon:
             Recon.subdomains(website, path)
         elif choise == '4':
             Misc.Misc.clear_screen() 
-            Recon.dir_buster(website)
+            Recon.dir_buster(website, path)
         elif choise == '5':
             Misc.Misc.clear_screen() 
             Recon.who_is(website, path)
