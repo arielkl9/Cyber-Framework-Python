@@ -206,5 +206,3 @@ class NmapScan:
                 continue
         return detected_services
 
-class ServiceEnum:
-    ...

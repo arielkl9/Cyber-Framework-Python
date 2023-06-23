@@ -9,7 +9,7 @@ class MenusRecon:
             choise = '0'
             Misc.Misc.clear_screen()
             Prints.Prints.print_menu_recon()
-            while choise not in "12345":
+            while choise not in ["1","2","3","4","5"]:
                 choise = input("Please choose your option: ")
             path = Misc.Misc.make_dir("Recon")
             Recon.Recon.init_scanner(choise, path)
@@ -23,7 +23,7 @@ class MenusScan:
         choise = '0'
         Misc.Misc.clear_screen()
         Prints.Prints.print_menu_scan()
-        while choise not in "12":
+        while choise not in ["1","2"]:
                 choise = input("Please choose your option: ")
         if choise == '1':
             Scan.ScanInit.print_res(Scan.ScanInit.arp_nmap())
@@ -38,7 +38,7 @@ class MenusScan:
         choise = '0'
         Misc.Misc.clear_screen()
         Prints.Prints.print_socket_scan()
-        while choise not in "12":
+        while choise not in ["1","2"]:
                 choise = input("Please choose your option: ")
         if choise == '1':
             Scan.ScanInit.print_res(Scan.ScanInit.arp_socket("fast"))

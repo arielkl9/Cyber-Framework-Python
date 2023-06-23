@@ -13,6 +13,8 @@ class Recon:
             whoisfile.write("\nWhois Scan Results:\n\n")
             try:
                 os.getuid()
+                website = website.strip("https://")
+                website = website.strip("http://")
                 whoisresult = whois.query(website)
                 for i in whoisresult.__dict__.keys():
                     whoisfile.writelines(f"{str(i)}:\n")
