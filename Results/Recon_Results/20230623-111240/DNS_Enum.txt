@@ -1,6 +1,0 @@
-DNS Enumeration Results:
-
-A records for google.com:
-    142.251.209.14
-AAAA records for google.com:
-    2a00:1450:4002:406::200e
