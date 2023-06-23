@@ -19,7 +19,7 @@ class MenusRecon:
             print(f"\nBye See You Never :D\n")
 
 class MenusScan: 
-    def main_menu():
+    def main_scan():
         choise = '0'
         Misc.Misc.clear_screen()
         Prints.Prints.print_menu_scan()
