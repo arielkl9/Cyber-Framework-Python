@@ -49,9 +49,13 @@ class MiscTools:
     def misc_menu():
         choise = '0'
         Prints.Prints.print_misc_tools()
-        while choise not in ["1","2"]:
+        while choise not in ["1","2","3","4"]:
             choise = input()
             if choise == '1':
                 Misc.ArpScanner.main()
             if choise == '2':
                 Misc.PingSweep.main()
+            if choise == '3':
+                Misc.KernalCVEs.main()
+            if choise == '4':
+                Misc.BasicPortScanner.main()

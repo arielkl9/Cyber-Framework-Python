@@ -99,28 +99,28 @@ class Recon:
 
     def init_scanner(choise, path):
         website = input("\nEnter A Domain To Scan: ")
-        Misc.Misc.clear_screen()
+        Misc.Tools.clear_screen()
         print("\n")
         if choise == '1':
-            Misc.Misc.clear_screen()
+            Misc.Tools.clear_screen()
             Recon.who_is(website, path)
         elif choise == '2':
-            Misc.Misc.clear_screen()
+            Misc.Tools.clear_screen()
             Recon.dns_enum(website, path)
         elif choise == '3':
-            Misc.Misc.clear_screen()  
+            Misc.Tools.clear_screen()  
             Recon.subdomains(website, path)
         elif choise == '4':
-            Misc.Misc.clear_screen() 
+            Misc.Tools.clear_screen() 
             Recon.dir_buster(website, path)
         elif choise == '5':
-            Misc.Misc.clear_screen() 
+            Misc.Tools.clear_screen() 
             Recon.who_is(website, path)
             Recon.dns_enum(website, path)
             Recon.subdomains(website, path)
             Recon.dir_buster(website, path)
         else:
-            Misc.Misc.clear_screen() 
+            Misc.Tools.clear_screen() 
             print("bad input!")
             exit()
 

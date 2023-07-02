@@ -34,7 +34,7 @@ class IpAddress:
 
 class ScanInit:
     def arp_nmap():
-        Misc.Misc.clear_screen()
+        Misc.Tools.clear_screen()
         ip_network = input("Enter network ip (CIDR Format): ")
         ip_subnet = input("Enter prefix (CIDR Format): ")
         arp_scan = ArpScan(ip_network, ip_subnet)
@@ -48,7 +48,7 @@ class ScanInit:
         return ip_address_obj
     
     def arp_socket(type):
-        Misc.Misc.clear_screen()
+        Misc.Tools.clear_screen()
         ip_network = input("Enter network ip (CIDR Format): ")
         ip_subnet = input("Enter prefix (CIDR Format): ")
         arp_scan = ArpScan(ip_network, ip_subnet)
@@ -62,8 +62,8 @@ class ScanInit:
         return ip_address_obj
 
     def print_res(ip_address_obj):
-        Misc.Misc.clear_screen()
-        path = Misc.Misc.make_dir("Scan")
+        Misc.Tools.clear_screen()
+        path = Misc.Tools.make_dir("Scan")
         with open(f"{path}/Nmap_Scan.txt","w") as scan_res:
             for index,i in enumerate(ip_address_obj):
                 print(f"\n\nResult {index + 1}:\n")
@@ -130,7 +130,7 @@ class TcpScan:
         elif type == "full":
             self.res = self.full_scan()
         else:
-            Misc.Misc.clear_screen()
+            Misc.Tools.clear_screen()
             print("IDK HOW THIS CAN HAPPEN")
             exit()
 
