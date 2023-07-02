@@ -2,7 +2,7 @@ import Misc
 
 class Prints:
     def menu():
-        Misc.Misc.clear_screen()
+        Misc.Tools.clear_screen()
         print("\n              Welcome To My Framework!!                 \n")
         print("\n        This Program Is Still In Development            \n")
         print("**********************************************************\n")
@@ -10,11 +10,12 @@ class Prints:
         print("|    Modules:                                            |\n")
         print("|    [1] Recon Module                                    |\n")
         print("|    [2] Scan Module                                     |\n")
+        print("|    [3] Misc Tools                                      |\n")
         print("|                                                        |\n")
         print("**********************************************************\n")
 
     def print_menu_recon():
-        Misc.Misc.clear_screen()
+        Misc.Tools.clear_screen()
         print("\n              Welcome To My Recon Module                \n")
         print("**********************************************************\n")
         print("|                                                        |\n")
@@ -28,7 +29,7 @@ class Prints:
         print("**********************************************************\n")
 
     def print_menu_scan():
-        Misc.Misc.clear_screen()
+        Misc.Tools.clear_screen()
         print("\n                 Welcome To My Scanning Module                  \n")
         print("*******************************************************************\n")
         print("|                                                                 |\n")
@@ -49,6 +50,16 @@ class Prints:
         print("|                                                                 |\n")
         print("*******************************************************************\n")
 
+    def print_misc_tools():
+        print("*******************************************************************\n")
+        print("|                                                                 |\n")
+        print("|    Choose Tool                                                  |\n")
+        print("|                                                                 |\n")
+        print("|    Options:                                                     |\n")
+        print("|    [1] Arp Scanner                                              |\n")
+        print("|    [2] Ping Sweeper                                             |\n")
+        print("|                                                                 |\n")
+        print("*******************************************************************\n")
     
     
 
