@@ -40,6 +40,7 @@ class Prints:
         print("*******************************************************************\n")
 
     def print_socket_scan():
+        Misc.Tools.clear_screen()
         print("*******************************************************************\n")
         print("|                                                                 |\n")
         print("|    What scan you want to use?                                   |\n")
@@ -51,6 +52,7 @@ class Prints:
         print("*******************************************************************\n")
 
     def print_misc_tools():
+        Misc.Tools.clear_screen()
         print("*******************************************************************\n")
         print("|                                                                 |\n")
         print("|    Choose Tool                                                  |\n")
