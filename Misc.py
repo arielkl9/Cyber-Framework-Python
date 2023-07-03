@@ -1,15 +1,15 @@
-import os
-import subprocess
-import datetime
 from scapy.all import ARP, Ether, srp
-import ipaddress
 from icmplib import ping
-import nmap3
+import subprocess
+import ipaddress
+import datetime
 import requests
+import socket
+import nmap3
+import json
 import time
 import re
-import json
-import socket
+import os
 
 # This class perform misc tasks
 # 
