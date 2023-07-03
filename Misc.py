@@ -176,34 +176,38 @@ class KernalCVEs:
 
     def scan(host):
         Tools.clear_screen()
-        print(f"\nScannning {host}...\n")
-        dic = {}
-        readable_format = []
-        data = nmap.nmap_version_detection(host)
-        if data[f"{host}"]['ports']:
-            dic = data[f"{host}"]['ports']
-            nmap_array.append(data)
-            scan_file.writelines(f"\nScan Result For {host}:\n")
-            for port in data[f"{host}"]['ports']:
-                try:
-                    text = ""
-                    text += f"Protocol -> {port['protocol']} | Port -> {port['portid']} | Service Data -> "
-                    service = port['service'].keys()      
-                    for item in service:
-                        text += f"{port['service'][item]} "
-                    text += f" | CPE -> {port['cpe'][0]['cpe']}"
-                except IndexError or KeyError as e:
-                    text = ""
-                    text += f"Protocol -> {port['protocol']} | Port -> {port['portid']} | Service Data -> "
-                    service = port['service'].keys()      
-                    for item in service:
-                        text += f"{port['service'][item]} "
-                    pass
-                scan_file.writelines(f"{text}\n")
-                readable_format.append(text)
-            return (dic ,readable_format)
-        else:
+        try:
+            print(f"\nScannning {host}...\n")
+            dic = {}
+            readable_format = []
+            data = nmap.nmap_version_detection(host)
+            if data[f"{host}"]['ports']:
+                dic = data[f"{host}"]['ports']
+                nmap_array.append(data)
+                scan_file.writelines(f"\nScan Result For {host}:\n")
+                for port in data[f"{host}"]['ports']:
+                    try:
+                        text = ""
+                        text += f"Protocol -> {port['protocol']} | Port -> {port['portid']} | Service Data -> "
+                        service = port['service'].keys()      
+                        for item in service:
+                            text += f"{port['service'][item]} "
+                        text += f" | CPE -> {port['cpe'][0]['cpe']}"
+                    except IndexError or KeyError as e:
+                        text = ""
+                        text += f"Protocol -> {port['protocol']} | Port -> {port['portid']} | Service Data -> "
+                        service = port['service'].keys()      
+                        for item in service:
+                            text += f"{port['service'][item]} "
+                        pass
+                    scan_file.writelines(f"{text}\n")
+                    readable_format.append(text)
+                return (dic ,readable_format)
+            else:
+                return (0, "")
+        except ConnectionError:
             return (0, "")
+
 
     def check_cve(dic):
         if dic:
