@@ -266,54 +266,56 @@ class KernalCVEs:
         except KeyboardInterrupt:
             Tools.clear_screen()
             KernalCVEs.close_files()
+            print(f"\nExiting")
+            exit()
 
 class BasicPortScanner:
     def main():
-        path = Tools.make_dir("Basic_Port_Scanner")
-        while True:
-            try:
-                Tools.clear_screen()
-                get_target=ipaddress.IPv4Network(input("enter IP to scan: (CIDR Format: x.x.x.x/x) "))
-                break
-            except TypeError and ipaddress.AddressValueError and ValueError:
-                pass
-        ports = input("Enter port range (Format: port-port)")
-        with open(f'{path}/Results.txt','w') as textfile:
-            textfile.write(f"The Best Port Scanner In Town!\n\n")
-            print(f"The Best Port Scanner In Town!\n")
-            for ip in get_target:
-                Tools.clear_screen()
+        try:
+            path = Tools.make_dir("Basic_Port_Scanner")
+            while True:
                 try:
-                    if str(ip).split(".")[-1] == "0":
-                        continue
-                    textfile.writelines(f"\n\nScanned Host: {ip}\nPorts Details:\n")
-                    print(f"Scanned Host: {ip}\nPort Range {port1}-{port2}\nFormat (port -> banner)\n\nPorts Details:\n\n")
-                    port1 = int(ports.split("-")[0])
-                    port2 = int(ports.split("-")[1])
-                    for port in range(int(f"{port1+1}"),int(f"{port2+1}")):
-                        try:
-                            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                            s.settimeout(1)
-                            result = s.connect_ex((ip.compressed,port))
-                            if result == 0:
-                                text=f"port {port} is open"
-                                data = s.recv(1024)
-                                print(f"{text} -> {data}")
-                                textfile.write(f"{text} -> {data}\n")
-                            s.close()
-                        except TimeoutError:
-                            print(f"{text}")
-                            textfile.write(f"{text}\n")
+                    Tools.clear_screen()
+                    get_target=ipaddress.IPv4Network(input("enter IP to scan: (CIDR Format: x.x.x.x/x) "))
+                    break
+                except TypeError and ipaddress.AddressValueError and ValueError:
+                    pass
+            ports = input("Enter port range (Format: port-port)")
+            with open(f'{path}/Results.txt','w') as textfile:
+                textfile.write(f"The Best Port Scanner In Town!\n\n")
+                print(f"The Best Port Scanner In Town!\n")
+                for ip in get_target:
+                    Tools.clear_screen()
+                    try:
+                        if str(ip).split(".")[-1] == "0":
+                            continue
+                        textfile.writelines(f"\n\nScanned Host: {ip}\nPorts Details:\n")
+                        print(f"Scanned Host: {ip}\nPort Range {port1}-{port2}\nFormat (port -> banner)\n\nPorts Details:\n\n")
+                        port1 = int(ports.split("-")[0])
+                        port2 = int(ports.split("-")[1])
+                        for port in range(int(f"{port1+1}"),int(f"{port2+1}")):
+                            try:
+                                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                                s.settimeout(1)
+                                result = s.connect_ex((ip.compressed,port))
+                                if result == 0:
+                                    text=f"port {port} is open"
+                                    data = s.recv(1024)
+                                    print(f"{text} -> {data}")
+                                    textfile.write(f"{text} -> {data}\n")
+                                s.close()
+                            except TimeoutError:
+                                print(f"{text}")
+                                textfile.write(f"{text}\n")
+                                s.close()
+                                continue
+
+                    except socket.error as e:
+                            print(f"\nServer not responding")
+                            print(e)
                             s.close()
                             continue
-                            
-                except KeyboardInterrupt:
-                        print(f"\nExiting")
-                        s.close()
-                        exit()
-
-                except socket.error as e:
-                        print(f"\nServer not responding")
-                        print(e)
-                        s.close()
-                        continue
+        except KeyboardInterrupt:
+                    print(f"\nExiting")
+                    s.close()
+                    exit()
