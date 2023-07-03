@@ -60,8 +60,8 @@ class Prints:
         print("|    Options:                                                     |\n")
         print("|    [1] Arp Scanner                                              |\n")
         print("|    [2] Ping Sweeper                                             |\n")
-        print("|    [3] Kernal CVE's Auto Scan                                   |\n")
-        print("|    [4] Basic Port Scanner (socket)                              |\n")
+        print("|    [3] Basic Port Scanner (socket)                              |\n")
+        print("|    [4] Kernal CVE's Auto Scan                                   |\n")
         print("|                                                                 |\n")
         print("*******************************************************************\n")
     

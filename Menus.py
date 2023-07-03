@@ -56,6 +56,6 @@ class MiscTools:
             if choise == '2':
                 Misc.PingSweep.main()
             if choise == '3':
-                Misc.KernalCVEs.main()
-            if choise == '4':
                 Misc.BasicPortScanner.main()
+            if choise == '4':
+                Misc.KernalCVEs.main()
