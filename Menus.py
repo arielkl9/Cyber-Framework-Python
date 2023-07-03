@@ -3,7 +3,7 @@ import Recon
 import Scan
 import Misc
 
-class MenusRecon:        
+class MenusRecon:
     def main_recon():
         try:
             choise = '0'
@@ -18,7 +18,7 @@ class MenusRecon:
             Misc.Tools.clear_screen()
             print(f"\nBye See You Never :D\n")
 
-class MenusScan: 
+class MenusScan:
     def main_scan():
         choise = '0'
         Misc.Tools.clear_screen()
