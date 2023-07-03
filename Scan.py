@@ -70,15 +70,15 @@ class ScanInit:
                 scan_res.writelines(f"Result {index + 1}:\n")
                 print(f"ip: {i.ip}\nmac: {i.mac}\n")
                 scan_res.writelines(f"ip: {i.ip}\nmac: {i.mac}\n")
-                print(f"services:\n")
-                scan_res.writelines(f"services:\n")
-                for service in i.services:
-                    scan_res.writelines("\n")
-                    for key in service.keys():
-                        print(f"{key} - {service[key]}")
-                        scan_res.writelines(f"{key} - {service[key]}\n")
-                    
-                    print("")
+                if i:
+                    print(f"services:\n")
+                    scan_res.writelines(f"services:\n")
+                    for service in i.services:
+                        for key in service.keys():
+                            print(f"{key} - {service[key]}")
+                            scan_res.writelines(f"{key} - {service[key]}\n")
+                        scan_res.writelines("\n")                        
+                        print("")
 
 
 

@@ -69,7 +69,10 @@ class Recon:
                             subdomainsfile.write(f"[+] Discovered subdomain: {url}\n")
                             discovered_subdomains.append(url)
                             bar()
-                        except requests.ConnectionError:
+                        except requests.exceptions.ConnectionError:
+                            bar()
+                            continue
+                        except requests.exceptions.InvalidURL:
                             bar()
                             continue
 
