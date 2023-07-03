@@ -48,25 +48,30 @@ class Recon:
             print("\n")
 
     def subdomains(website, path):
-        website = website.strip("https://")
-        website = website.strip("http://")
+        with open(f"{os.getcwd()}/Lists/subdomains.txt","r") as file:
+            counter = 0
+            for line in file:
+                counter += 1
+        website = website.split("://")
         with open(f"{path}/Subdomains.txt","w") as subdomainsfile:
             with open(f"Lists/subdomains.txt","r") as listfile:
-                print("Initializing Subdomain Bruteforce...\n")
-                subdomainsfile.write("Subdomain Bruteforce Results:\n\n")
-                content = listfile.read()
-                subdomains = content.splitlines()
-                discovered_subdomains = []
-                for subdomain in subdomains:
-                    url = f"https://{subdomain}.{website}"
-                    try:
-                        requests.get(url)
-                    except requests.ConnectionError:
-                        pass
-                    else:
-                        print(f"[+] Discovered subdomain: {url}")
-                        subdomainsfile.write(f"[+] Discovered subdomain: {url}\n")
-                        discovered_subdomains.append(url)
+                with alive_bar(counter) as bar:
+                    print("Initializing Subdomain Bruteforce...\n")
+                    subdomainsfile.write("Subdomain Bruteforce Results:\n\n")
+                    content = listfile.read()
+                    subdomains = content.splitlines()
+                    discovered_subdomains = []
+                    for subdomain in subdomains:
+                        url = f"{website[0]}://{subdomain}.{website[1]}"
+                        try:
+                            requests.get(url,timeout=3.5)
+                            print(f"[+] Discovered subdomain: {url}")
+                            subdomainsfile.write(f"[+] Discovered subdomain: {url}\n")
+                            discovered_subdomains.append(url)
+                            bar()
+                        except requests.ConnectionError:
+                            bar()
+                            continue
 
     def dir_buster(website, path): 
         with open(f"{os.getcwd()}/Lists/dirs.txt","r") as file:
@@ -74,9 +79,9 @@ class Recon:
             for line in file:
                 counter += 1
         with open(f"{os.getcwd()}/Lists/dirs.txt","r") as file:
-            with alive_bar(counter) as bar:
-                with open(f"{path}/dirs.txt","w") as res:       
-                    print("\b\b\b\b\b\b\b\nRunning Dir Brute Force Abuse...\n")
+            with open(f"{path}/dirs.txt","w") as res:
+                with alive_bar(counter) as bar:
+                    print("Running Dir Brute Force Abuse...\n")
                     res.writelines("Running Dir Brute Force Abuse...\n\n")
                     print(f"\b\b\b\b\b\b\bUsing List: {os.getcwd()}/Lists/dirs.txt\n\n")
                     res.writelines(f"Using List: {os.getcwd()}/Lists/dirs.txt\n")
