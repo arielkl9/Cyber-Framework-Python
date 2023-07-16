@@ -7,6 +7,7 @@ import concurrent.futures
 import time
 from urllib.parse import urlparse
 import json
+import datetime
 
 class Crawler:
     def __init__(self) -> None:
@@ -14,8 +15,13 @@ class Crawler:
         self.menu()
         self.print_menu(2)
         self.set_values()
-        self.crawl(self.url)
-        self.log()
+        try:
+            self.crawl(self.url)
+            self.log()
+        except KeyboardInterrupt:
+            self.clear_screen()
+            print("Exiting...")
+            self.log()
 
     def __call__(self):
         return "END"
@@ -36,6 +42,8 @@ class Crawler:
             self.clear_screen()
             input_url = input("Enter a URL: ")
             if self.is_valid_url(input_url):
+                if input_url[-1] != "/":
+                    input_url += "/"
                 self.clear_screen()
                 print(f"Crawling at: {input_url}\nTry to stay quiet")
                 break
@@ -90,13 +98,23 @@ class Crawler:
         return self.__call__
     
     def check_url(self,a_tag):
-        if self.domain in a_tag["href"]:
-            tld_count = a_tag["href"].count(self.domain)
-            if self.base_domain in a_tag["href"] and self.scan_type not in a_tag["href"] and "#" not in a_tag["href"] and tld_count == 1: # "?" not in a_tag["href"] and -> only sites
-                if a_tag["href"] not in self.urls_found:
-                    self.urls_found.append(a_tag["href"])
-                    if a_tag["href"] not in self.url_crawled:
-                        return self.crawl(a_tag["href"])
+        url = str(a_tag["href"])
+        if url:
+            if url[-1] != "/":
+                    url += "/"
+            if self.domain in url:
+                tld_count = url.count(self.domain)
+                if self.base_domain in url and self.scan_type not in url and "#" not in url and tld_count == 1: # "?" not in url and -> only sites
+                    if url not in self.urls_found:
+                        self.urls_found.append(url)
+                        if url not in self.url_crawled:
+                            return self.crawl(url)
+            elif url[0] == "/" and "#" not in url and self.scan_type not in url:
+                if f"{self.url}/{a_tag['href']}" not in self.urls_found:
+                    if self.get_url(f"{self.url}{a_tag['href']}"):
+                        self.urls_found.append(f"{self.url}{a_tag['href']}")
+                        if f"{self.url}/{a_tag['href']}" not in self.url_crawled:
+                            return self.crawl(f"{self.url}{a_tag['href']}")
         return None
 
     def time_end(self):
@@ -128,7 +146,8 @@ class Crawler:
         print("I Think Thats All Of Them\nYour Results Are Waiting For You In 'log.json' File\nGo Catch Them All!\nAnd Btw Here Some Stats If Youre Intrested :D")
         print(f"Sites Found: {len(self.url_crawled)}")
         self.time_end()
-        with open("log.json","w") as json_file:
+        path = self.make_dir("Crawler")
+        with open(f"{path}/log.json","w") as json_file:
             json_file.writelines(json.dumps(self.url_crawled,indent=2))
 
     def print_menu(self, num):
@@ -163,6 +182,21 @@ class Crawler:
             choise = input()
             if choise in ["1"]:
                 break
+    
+    def make_dir(self,folder):
+        try:
+            cwd = os.getcwd()
+            time = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+            path = f"{cwd}/Results/{folder}_Results/{time}"
+            os.makedirs(path,exist_ok=True)
+            return path
+        except Exception:
+            self.clear_screen()
+            print("Error:\n")
+            print("Creating Folders Failed!\n")
+            print("Press Enter To Exit...\n")
+            input()
+            exit()
 
     def clear_screen(self):
         try:
