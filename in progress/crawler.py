@@ -10,8 +10,12 @@ import json
 
 class Crawler:
     def __init__(self) -> None:
-        self.print_menu()
+        self.print_menu(1)
         self.menu()
+        self.print_menu(2)
+        self.set_values()
+        self.crawl(self.url)
+        self.log()
 
     def __call__(self):
         return "END"
@@ -44,7 +48,7 @@ class Crawler:
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36'
                 }
-            response = requests.get(url, headers, timeout=0.3)
+            response = requests.get(url, headers, timeout=2)
             if response.status_code == 200:
                 return response
             else:
@@ -63,7 +67,7 @@ class Crawler:
                 urls = soup.find_all("a")
                 if urls:
                     threads = []
-                    with concurrent.futures.ThreadPoolExecutor(max_workers=None) as executor:
+                    with concurrent.futures.ThreadPoolExecutor() as executor:
                         for a_tag in urls:
                             try:
                                 threads.append(executor.submit(self.check_url(a_tag)))
@@ -83,12 +87,12 @@ class Crawler:
                             except Exception:
                                 self.threads[self.index - 1][f"Task {self.index}"].append(f"Thread Number {i+1} - ERROR (Exception)")
                                 pass
-                        return self.__call__
+        return self.__call__
     
     def check_url(self,a_tag):
         if self.domain in a_tag["href"]:
             tld_count = a_tag["href"].count(self.domain)
-            if self.base_domain in a_tag["href"] and "?" not in a_tag["href"] and "#" not in a_tag["href"] and tld_count == 1: # "?" not in a_tag["href"] and -> only sites
+            if self.base_domain in a_tag["href"] and self.scan_type not in a_tag["href"] and "#" not in a_tag["href"] and tld_count == 1: # "?" not in a_tag["href"] and -> only sites
                 if a_tag["href"] not in self.urls_found:
                     self.urls_found.append(a_tag["href"])
                     if a_tag["href"] not in self.url_crawled:
@@ -127,24 +131,40 @@ class Crawler:
         with open("log.json","w") as json_file:
             json_file.writelines(json.dumps(self.url_crawled,indent=2))
 
-    def print_menu(self):
-        self.clear_screen()
-        print("\n               Welcome To Website Crawler Module                 \n")
-        print("*******************************************************************\n")
-        print("|                                                                 |\n")
-        print("|    Options:                                                     |\n")
-        print("|    [1] Use Crawler Only                                         |\n")
-        print("|    [2] Add Some BruteForce!! (In Progress...)                   |\n")
-        print("|                                                                 |\n")
-        print("*******************************************************************\n")
+    def print_menu(self, num):
+        if num == 1:
+            self.clear_screen()
+            print("\n               Welcome To Website Crawler Module                 \n")
+            print("*******************************************************************\n")
+            print("|                                                                 |\n")
+            print("|    Options:                                                     |\n")
+            print("|    [1] Use Crawler Only                                         |\n")
+            print("|    [2] Add Some BruteForce!! (In Progress...)                   |\n")
+            print("|                                                                 |\n")
+            print("*******************************************************************\n")
+        if num == 2:
+            self.clear_screen()
+            print("\n               Welcome To Website Crawler Module                 \n")
+            print("*******************************************************************\n")
+            print("|                                                                 |\n")
+            print("|    Options:                                                     |\n")
+            print("|    [1] Fast Crawl (only sites)                                  |\n")
+            print("|    [2] Slow Crawl (sites and requests) - Recommended            |\n")
+            print("|                                                                 |\n")
+            print("*******************************************************************\n")
+            input_num = input()
+            if input_num == "1":
+                self.scan_type = "?"
+            else:
+                self.scan_type = "#"
+            
+
+
 
     def menu(self):
         while True:
             choise = input()
             if choise in ["1"]:
-                self.set_values()
-                self.crawl(self.url)
-                self.log()
                 break
 
     def clear_screen(self):
