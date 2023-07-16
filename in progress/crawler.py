@@ -157,9 +157,6 @@ class Crawler:
                 self.scan_type = "?"
             else:
                 self.scan_type = "#"
-            
-
-
 
     def menu(self):
         while True:
