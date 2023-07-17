@@ -87,13 +87,13 @@ class Crawler:
                         for i,thread in enumerate(threads):
                             try:
                                 if str(thread._result) == "END":
-                                    self.threads[self.index - 1][f"Task {self.index}"].append(f"Thread Number {i+1} - END")
+                                    self.threads[self.index - 1][f"Task {self.index}"].append(f"Thread No.{i+1} - END")
                                 elif str(thread._state) == 'FINISHED' and str(thread._result) != "END":
-                                    self.threads[self.index - 1][f"Task {self.index}"].append(f"Thread Number {i+1} - COMPLETE")                        
+                                    self.threads[self.index - 1][f"Task {self.index}"].append(f"Thread No.{i+1} - COMPLETE")                        
                                 else:
-                                    self.threads[self.index - 1][f"Task {self.index}"].append(f"Thread Number {i+1} - ERROR")
+                                    self.threads[self.index - 1][f"Task {self.index}"].append(f"Thread No.{i+1} - ERROR")
                             except Exception:
-                                self.threads[self.index - 1][f"Task {self.index}"].append(f"Thread Number {i+1} - ERROR (Exception)")
+                                self.threads[self.index - 1][f"Task {self.index}"].append(f"Thread No.{i+1} - ERROR (Exception)")
                                 pass
         return self.__call__
     
@@ -110,7 +110,7 @@ class Crawler:
                         if url not in self.url_crawled:
                             return self.crawl(url)
             elif url[0] == "/" and "#" not in url and self.scan_type not in url:
-                if f"{self.url}/{a_tag['href']}" not in self.urls_found:
+                if f"{self.url}{a_tag['href']}" not in self.urls_found:
                     if self.get_url(f"{self.url}{a_tag['href']}"):
                         self.urls_found.append(f"{self.url}{a_tag['href']}")
                         if f"{self.url}/{a_tag['href']}" not in self.url_crawled:
