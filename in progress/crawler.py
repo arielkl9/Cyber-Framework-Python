@@ -11,13 +11,13 @@ import os
 class Crawler:
     def __init__(self) -> None:
         self.menu()
-        self.thread_counter = 0
         self.index = 0
+        self.threads = []
         self.urls_found = []
         self.url_crawled = []
-        self.start_time = time.time()
+        self.thread_counter = 0
         self.domain = self.get_domain()
-        self.threads = []
+        self.start_time = time.time()
         self.base_domain = self.url.split("://")[-1]
         try:
             self.crawl(self.url)
@@ -168,13 +168,13 @@ class Crawler:
             print("|    [2] Slow Crawl (sites and requests) - Recommended            |\n")
             print("|                                                                 |\n")
             print("*******************************************************************\n")
-            input_num = input()
-            if input_num == "1":
+            choise = input()
+            if choise == "1":
                 self.scan_type = "?"
                 break
-            else:
+            elif choise == "2":
                 self.scan_type = "#"
-                break
+                break   
         self.url = self.set_url()
     
     def make_dir(self,folder):
