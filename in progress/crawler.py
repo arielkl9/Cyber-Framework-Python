@@ -1,83 +1,48 @@
-import subprocess
-import os
-from typing import Any
-import requests
+from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 import concurrent.futures
-import time
-from urllib.parse import urlparse
-import json
+import subprocess
+import requests
 import datetime
+import time
+import json
+import os
 
 class Crawler:
     def __init__(self) -> None:
-        self.print_menu(1)
         self.menu()
-        self.print_menu(2)
-        self.set_values()
+        self.thread_counter = 0
+        self.index = 0
+        self.urls_found = []
+        self.url_crawled = []
+        self.start_time = time.time()
+        self.domain = self.get_domain()
+        self.threads = []
+        self.base_domain = self.url.split("://")[-1]
         try:
             self.crawl(self.url)
             self.log()
         except KeyboardInterrupt:
             self.clear_screen()
-            print("Exiting...")
+            print("Crawling Interupted!!")
             self.log()
 
     def __call__(self):
         return "END"
 
-    def set_values(self):
-        self.thread_counter = 0
-        self.index = 0
-        self.urls_found = []
-        self.url_crawled = []
-        self.url = self.set_url()
-        self.start_time = time.time()
-        self.domain = self.get_domain()
-        self.threads = []
-        self.base_domain = self.url.split("://")[-1]
-
-    def set_url(self):
-        while True:
-            self.clear_screen()
-            input_url = input("Enter a URL: ")
-            if self.is_valid_url(input_url):
-                if input_url[-1] != "/":
-                    input_url += "/"
-                self.clear_screen()
-                print(f"Crawling at: {input_url}\nTry to stay quiet")
-                break
-            else:
-                continue
-        return input_url
-
-    def get_url(self, url):
-        try:
-            headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36'
-                }
-            response = requests.get(url, headers, timeout=2)
-            if response.status_code == 200:
-                return response
-            else:
-                return None
-        except Exception as e:
-            if "Invalid URL" in str(e):
-                return None
-
     def crawl(self, url):
         if url not in self.url_crawled:
             html_obj = self.get_url(url)
             self.url_crawled.append(url)
-            self.thread_counter += 1
             if html_obj:
                 soup = BeautifulSoup(html_obj.text, "html.parser")
                 urls = soup.find_all("a")
                 if urls:
                     threads = []
-                    with concurrent.futures.ThreadPoolExecutor() as executor:
+                    with concurrent.futures.ThreadPoolExecutor(max_workers=9999999999) as executor:
                         for a_tag in urls:
                             try:
+                                self.thread_counter += 1
                                 threads.append(executor.submit(self.check_url(a_tag)))
                             except KeyError:
                                 pass
@@ -117,10 +82,38 @@ class Crawler:
                             return self.crawl(f"{self.url}{a_tag['href']}")
         return None
 
+    def get_url(self, url):
+        try:
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36'
+                }
+            response = requests.get(url, headers, timeout=2)
+            if response.status_code == 200:
+                return response
+            else:
+                return None
+        except Exception as e:
+            if "Invalid URL" in str(e):
+                return None
+
+    def set_url(self):
+            while True:
+                self.clear_screen()
+                input_url = input("Enter a URL: ")
+                if self.is_valid_url(input_url):
+                    if input_url[-1] != "/":
+                        input_url += "/"
+                    self.clear_screen()
+                    print(f"Crawling at: {input_url}\nTry to stay quiet")
+                    break
+                else:
+                    continue
+            return input_url
+
     def time_end(self):
         end_time = time.time()
         elapsed_time = end_time - self.start_time
-        spm = self.thread_counter / elapsed_time * 60
+        spm = len(self.url_crawled) / elapsed_time * 60
         hours = int(elapsed_time // 3600)
         minutes = int((elapsed_time % 3600) // 60)
         seconds = int(elapsed_time % 60)
@@ -143,15 +136,16 @@ class Crawler:
         return all([parsed_url.scheme, parsed_url.netloc])
 
     def log(self):
-        print("I Think Thats All Of Them\nYour Results Are Waiting For You In 'log.json' File\nGo Catch Them All!\nAnd Btw Here Some Stats If Youre Intrested :D")
+        self.clear_screen()
+        print("Ok Thats All I Got For Now\nYour Results Are Waiting For You In 'log.json' File\nGo Catch Them All!\nAnd Btw Here Some Stats If Youre Intrested :D")
         print(f"Sites Found: {len(self.url_crawled)}")
         self.time_end()
         path = self.make_dir("Crawler")
         with open(f"{path}/log.json","w") as json_file:
             json_file.writelines(json.dumps(self.url_crawled,indent=2))
 
-    def print_menu(self, num):
-        if num == 1:
+    def menu(self):     
+        while True:
             self.clear_screen()
             print("\n               Welcome To Website Crawler Module                 \n")
             print("*******************************************************************\n")
@@ -161,7 +155,10 @@ class Crawler:
             print("|    [2] Add Some BruteForce!! (In Progress...)                   |\n")
             print("|                                                                 |\n")
             print("*******************************************************************\n")
-        if num == 2:
+            choise = input()
+            if choise in ["1"]:
+                break
+        while True:
             self.clear_screen()
             print("\n               Welcome To Website Crawler Module                 \n")
             print("*******************************************************************\n")
@@ -174,14 +171,11 @@ class Crawler:
             input_num = input()
             if input_num == "1":
                 self.scan_type = "?"
+                break
             else:
                 self.scan_type = "#"
-
-    def menu(self):
-        while True:
-            choise = input()
-            if choise in ["1"]:
                 break
+        self.url = self.set_url()
     
     def make_dir(self,folder):
         try:
