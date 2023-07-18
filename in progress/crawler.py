@@ -10,16 +10,16 @@ import os
 
 class Crawler:
     def __init__(self) -> None:
-        self.menu()
-        self.index = 0
-        self.threads = []
-        self.urls_found = []
-        self.url_crawled = []
-        self.thread_counter = 0
-        self.domain = self.get_domain()
-        self.start_time = time.time()
-        self.base_domain = self.url.split("://")[-1]
         try:
+            self.menu()
+            self.index = 0
+            self.threads = []
+            self.urls_found = []
+            self.url_crawled = []
+            self.thread_counter = 0
+            self.domain = self.get_domain()
+            self.start_time = time.time()
+            self.base_domain = self.url.split("://")[-1]
             self.crawl(self.url)
             self.log()
         except KeyboardInterrupt:
