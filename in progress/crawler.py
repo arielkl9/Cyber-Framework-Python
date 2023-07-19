@@ -1,4 +1,3 @@
-from alive_progress import alive_bar
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 import concurrent.futures
