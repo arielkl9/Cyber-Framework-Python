@@ -7,6 +7,7 @@ import datetime
 import time
 import json
 import os
+import re
 
 class Crawler:
     def __init__(self) -> None:
@@ -54,16 +55,18 @@ class Crawler:
         if url not in self.good_urls:
             if self.domain in url and "http" in url:
                 tld_count = url.count(self.domain)
-                if self.base_domain in url and self.scan_type not in url and "#" not in url and tld_count == 1: # "?" not in url and -> only sites
+                if self.base_domain in url and self.scan_type.findall(url) == [] and tld_count == 1: # "?" not in url and -> only sites
                     self.good_urls.append(url)
-                    print(f"{len(self.good_urls)}: {url}\n")
-                    return self.crawl(url)  
-            elif url[0] == "/" and "#" not in url and self.scan_type not in url:
+                    if self.show_print:
+                        print(f"{len(self.good_urls)}: {url}\n")
+                    return self.crawl(url)
+            elif url[0] == "/" and self.scan_type.findall(url) == []:
                 url = url[1:]
                 if f"{self.url}{url}" not in self.good_urls:
                     if self.get_url(f"{self.url}{url}"):
                         self.good_urls.append(f"{self.url}{url}")
-                        print(f"{len(self.good_urls)}: {self.url}{url}\n")
+                        if self.show_print:
+                            print(f"{len(self.good_urls)}: {self.url}{url}\n")
                         return self.crawl(f"{self.url}{url}")
                             
     def get_url(self, url):
@@ -155,11 +158,28 @@ class Crawler:
             print("*******************************************************************\n")
             choise = input()
             if choise == "1":
-                self.scan_type = "?"
+                self.scan_type = re.compile(r"[?#]", re.IGNORECASE)
                 break
             elif choise == "2":
-                self.scan_type = "#"
+                self.scan_type = re.compile(r"[#]", re.IGNORECASE)
                 break   
+        while True:
+            self.clear_screen()
+            print("\n               Welcome To Website Crawler Module                 \n")
+            print("*******************************************************************\n")
+            print("|                                                                 |\n")
+            print("|    Options:                                                     |\n")
+            print("|    [1] Show Prints                                              |\n")
+            print("|    [2] Quite Mode                                               |\n")
+            print("|                                                                 |\n")
+            print("*******************************************************************\n")
+            choise = input()
+            if choise == "1":
+                self.show_print = True
+                break
+            elif choise == "2":
+                self.show_print = False
+                break  
         self.url = self.set_url()
         print(f"Crawling at: {self.url}\nTry to stay quiet")
     
