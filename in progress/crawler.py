@@ -15,6 +15,7 @@ class Crawler:
             self.good_urls = []
             self.urls_found = []
             self.thread_counter = 0
+            self.sites_looked = 0
             self.domain = self.get_domain()
             self.start_time = time.time()
             self.base_domain = self.url.split("://")[-1]
@@ -44,6 +45,7 @@ class Crawler:
                                 if a_tag["href"] not in self.urls_found:
                                     executor.submit(self.check_url,a_tag["href"])
                                     self.thread_counter += 1
+                                    self.sites_looked += 1
             except Exception:
                 pass
         return self.__call__
@@ -100,7 +102,7 @@ class Crawler:
         formatted_time = "{:02d}:{:02d}:{:02d}".format(hours, minutes, seconds)
         formatted_spm = "{:.2f}".format(spm)
         print(f"Elapsed Time: {formatted_time}")
-        print(f"Sites Found: {len(self.urls_found)}")
+        print(f"Sites Found: {self.sites_looked}")
         print(f"Working Sites: {len(self.good_urls)}")
         print(f"Threads Used: {self.thread_counter}")
         print(f"Sites Per Minute: {formatted_spm}")
