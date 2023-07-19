@@ -46,7 +46,7 @@ class Crawler:
                                 self.sites_looked += 1
                                 if a_tag["href"] not in self.urls_found:
                                     executor.submit(self.check_url,a_tag["href"])
-                                    self.thread_counter += 1 
+                                    self.thread_counter += 1
             except Exception:
                 pass
         return self.__call__
@@ -105,12 +105,21 @@ class Crawler:
         seconds = int(elapsed_time % 60)
         formatted_time = "{:02d}:{:02d}:{:02d}".format(hours, minutes, seconds)
         formatted_spm = "{:.2f}".format(spm)
-        print(f"Elapsed Time: {formatted_time}")
-        print(f"URL's Found: {self.sites_looked}")
-        print(f"Working Sites: {len(self.good_urls)}")
-        print(f"Threads Used: {self.thread_counter}")
-        print(f"Sites Per Minute: {formatted_spm}")
-        
+        print(
+f'''\b************************************************************
+                                                            
+    Ok Thats All I Got For Now                             
+    Your Results Are Waiting For You In 'log.json' File    
+    Go Catch Them All!                                     
+    And Btw Here Some Stats If Youre Intrested :D          
+    Elapsed Time: {formatted_time}                         
+    URL's Found: {self.sites_looked}                       
+    Working Sites: {len(set(self.good_urls))}              
+    Threads Used: {self.thread_counter}                    
+    Sites Per Minute: {formatted_spm}                      
+                                                            
+************************************************************''')
+
     def get_domain(self):
         domain = self.url
         domain = domain.strip("https://")
@@ -126,16 +135,47 @@ class Crawler:
 
     def log(self):
         self.clear_screen()
-        print("Ok Thats All I Got For Now\nYour Results Are Waiting For You In 'log.json' File\nGo Catch Them All!\nAnd Btw Here Some Stats If Youre Intrested :D")
+        print(r'''
+                      ____...---...___
+        ___.....---"""        .       ""--..____
+             .                  .            .
+         .             _.--._       /|
+                .    .'()..()`.    / /
+                    ( `-.__.-' )  ( (    .
+           .         \        /    \ \
+               .      \      /      ) )        .
+                    .' -.__.- `.-.-'_.'
+         .        .'  /-____-\  `.-'       .
+                  \  /-.____.-\  /-.
+                   \ \`-.__.-'/ /\|\|           .
+                  .'  `.    .'  `.
+                  |/\/\|    |/\/\|
+''')
         self.time_end()
         path = self.make_dir("Crawler")
         with open(f"{path}/log.json","w") as json_file:
-            json_file.writelines(json.dumps(self.good_urls,indent=2))
+            json_file.writelines(json.dumps(list(set(self.good_urls)),indent=2))
 
-    def menu(self):     
+    def menu(self):        
         while True:
             self.clear_screen()
-            print("\n               Welcome To Website Crawler Module                 \n")
+            print(r"""
+    _.-~~-.__
+ _-~ _-O-_   ''-,,
+('___ ~~~   0     ~''-_,,,,,,,,,,,,,,,,
+ \~~~~~~--'                            '''''''--,,,,
+  ~`-,_      ()                                     '''',,,
+       '-,_      \                           /             '', _~/|
+  ,.       \||/~--\ \_________              / /______...---.  ;  /
+  \ ~~~~~~~~~~~~~  \ )~~------~`~~~~~~~~~~~( /----         /,'/ /
+   |   -           / /                      \ \           /;/  /
+  / -             / /                        / \         /;/  / -.
+ /         __.---/  \__                     /, /|       |:|    \  \
+/_.~`-----~      \.  \ ~~~~~~~~~~~~~---~`---\\\\ \---__ \:\    /  /
+                  `\\\`                     ' \\' '    --\'\, /  /
+                                               '\,        ~-_'''"
+            """)
+            print("               Welcome To Website Crawler Module                 \n")
             print("*******************************************************************\n")
             print("|                                                                 |\n")
             print("|    Options:                                                     |\n")
@@ -148,7 +188,23 @@ class Crawler:
                 break
         while True:
             self.clear_screen()
-            print("\n               Welcome To Website Crawler Module                 \n")
+            print(r"""
+    _.-~~-.__
+ _-~ _-@-_   ''-,,
+('___ ~~~   0     ~''-_,,,,,,,,,,,,,,,,
+ \~~~~~~--'                            '''''''--,,,,
+  ~`-,_      ()                                     '''',,,
+       '-,_      \                           /             '', _~/|
+  ,.       \||/~--\ \_________              / /______...---.  ;  /
+  \ ~~~~~~~~~~~~~  \ )~~------~`~~~~~~~~~~~( /----         /,'/ /
+   |   -           / /                      \ \           /;/  /
+  / -             / /                        / \         /;/  / -.
+ /         __.---/  \__                     /, /|       |:|    \  \
+/_.~`-----~      \.  \ ~~~~~~~~~~~~~---~`---\\\\ \---__ \:\    /  /
+                  `\\\`                     ' \\' '    --\'\, /  /
+                                               '\,        ~-_'''"
+            """)
+            print("               Welcome To Website Crawler Module                 \n")
             print("*******************************************************************\n")
             print("|                                                                 |\n")
             print("|    Options:                                                     |\n")
@@ -165,7 +221,23 @@ class Crawler:
                 break   
         while True:
             self.clear_screen()
-            print("\n               Welcome To Website Crawler Module                 \n")
+            print(r"""
+    _.-~~-.__
+ _-~ _-X-_   ''-,,
+('___ ~~~   0     ~''-_,,,,,,,,,,,,,,,,
+ \~~~~~~--'                            '''''''--,,,,
+  ~`-,_      ()                                     '''',,,
+       '-,_      \                           /             '', _~/|
+  ,.       \||/~--\ \_________              / /______...---.  ;  /
+  \ ~~~~~~~~~~~~~  \ )~~------~`~~~~~~~~~~~( /----         /,'/ /
+   |   -           / /                      \ \           /;/  /
+  / -             / /                        / \         /;/  / -.
+ /         __.---/  \__                     /, /|       |:|    \  \
+/_.~`-----~      \.  \ ~~~~~~~~~~~~~---~`---\\\\ \---__ \:\    /  /
+                  `\\\`                     ' \\' '    --\'\, /  /
+                                               '\,        ~-_'''"
+            """)
+            print("               Welcome To Website Crawler Module                 \n")
             print("*******************************************************************\n")
             print("|                                                                 |\n")
             print("|    Options:                                                     |\n")
