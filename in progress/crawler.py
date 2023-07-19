@@ -1,3 +1,4 @@
+from alive_progress import alive_bar
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 import concurrent.futures
@@ -42,28 +43,29 @@ class Crawler:
                     if urls:
                         with concurrent.futures.ThreadPoolExecutor(max_workers=60) as executor:
                             for a_tag in urls:
+                                self.sites_looked += 1
                                 if a_tag["href"] not in self.urls_found:
                                     executor.submit(self.check_url,a_tag["href"])
-                                    self.thread_counter += 1
-                                    self.sites_looked += 1
+                                    self.thread_counter += 1 
             except Exception:
                 pass
         return self.__call__
     
     def check_url(self,url):
-        if url and url not in self.good_urls:
+        if url not in self.good_urls:
             if self.domain in url and "http" in url:
                 tld_count = url.count(self.domain)
                 if self.base_domain in url and self.scan_type not in url and "#" not in url and tld_count == 1: # "?" not in url and -> only sites
                     self.good_urls.append(url)
                     print(f"{len(self.good_urls)}: {url}\n")
-                    return self.crawl(url)
-            elif url[0] == "/" and "#" not in url and self.scan_type not in url and f"{self.url}{url}" not in self.good_urls:
-                if self.get_url(f"{self.url}{url}"):
-                    self.good_urls.append(f"{self.url}{url}")
-                    print(f"{len(self.good_urls)}: {self.url}{url}\n")
-                    return self.crawl(f"{self.url}{url}")
-            
+                    return self.crawl(url)  
+            elif url[0] == "/" and "#" not in url and self.scan_type not in url:
+                url = url[1:]
+                if f"{self.url}{url}" not in self.good_urls:
+                    if self.get_url(f"{self.url}{url}"):
+                        self.good_urls.append(f"{self.url}{url}")
+                        print(f"{len(self.good_urls)}: {self.url}{url}\n")
+                        return self.crawl(f"{self.url}{url}")
                             
     def get_url(self, url):
         try:
@@ -102,7 +104,7 @@ class Crawler:
         formatted_time = "{:02d}:{:02d}:{:02d}".format(hours, minutes, seconds)
         formatted_spm = "{:.2f}".format(spm)
         print(f"Elapsed Time: {formatted_time}")
-        print(f"Sites Found: {self.sites_looked}")
+        print(f"URL's Found: {self.sites_looked}")
         print(f"Working Sites: {len(self.good_urls)}")
         print(f"Threads Used: {self.thread_counter}")
         print(f"Sites Per Minute: {formatted_spm}")
