@@ -3,8 +3,20 @@ import Misc
 class Prints:
     def menu():
         Misc.Tools.clear_screen()
-        print("\n              Welcome To My Framework!!                 \n")
-        print("\n        This Program Is Still In Development            \n")
+        print(
+r'''
+     _____                                   
+    |  ___|  _ __    __ _   _ __ ___     ___ 
+    | |_    | '__|  / _` | | '_ ` _ \   / _ \
+    |  _|   | |    | (_| | | | | | | | |  __/
+    |_|_    |_| __  \__,_| |_| |_| |_|  \___|
+       \ \      / /   ___    _ __  | | __     
+        \ \ /\ / /   / _ \  | '__| | |/ /     
+         \ V  V /   | (_) | | |    |   <      
+          \_/\_/     \___/  |_|    |_|\_\     
+                                          
+'''
+        )
         print("**********************************************************\n")
         print("|                                                        |\n")
         print("|    Modules:                                            |\n")
@@ -16,7 +28,14 @@ class Prints:
 
     def print_menu_recon():
         Misc.Tools.clear_screen()
-        print("\n              Welcome To My Recon Module                \n")
+        print(
+r'''
+         ____                                
+        |  _ \    ___    ___    ___    _ __  
+        | |_) |  / _ \  / __|  / _ \  | '_ \ 
+        |  _ <  |  __/ | (__  | (_) | | | | |
+        |_| \_\  \___|  \___|  \___/  |_| |_|       
+''')
         print("**********************************************************\n")
         print("|                                                        |\n")
         print("|    Options:                                            |\n")
@@ -30,7 +49,16 @@ class Prints:
 
     def print_menu_scan():
         Misc.Tools.clear_screen()
-        print("\n                 Welcome To My Scanning Module                  \n")
+        print(
+r'''
+     ____                                   _                 
+    / ___|    ___    __ _   _ __    _ __   (_)  _ __     __ _ 
+    \___ \   / __|  / _` | | '_ \  | '_ \  | | | '_ \   / _` |
+     ___) | | (__  | (_| | | | | | | | | | | | | | | | | (_| |
+    |____/   \___|  \__,_| |_| |_| |_| |_| |_| |_| |_|  \__, |
+                                                         ___/ 
+'''
+        )
         print("*******************************************************************\n")
         print("|                                                                 |\n")
         print("|    Options:                                                     |\n")
