@@ -42,28 +42,10 @@ The Misc Tools section contains various utility tools for different security-rel
 
 To use the modules in this project, follow these steps:
 
-1. Clone this repository: `git clone https://github.com/your-username/cyber-security-automation.git`
+1. Clone this repository: `git clone https://github.com/arielkl9/Cyber-Framework-Python.git`
 
-2. Navigate to the desired module's directory: `cd recon-module`
+2. Navigate to the desired module's directory: `cd Cyber-Framework-Python`
 
-3. Run the script: `python whois_scan.py`
+3. Run the script: `python framework.py`
 
 4. Follow the instructions provided by the script to perform the desired task.
-
-## Contribution
-
-Contributions to this project are welcome! If you have any ideas, suggestions, or improvements, feel free to create an issue or submit a pull request. Please ensure your contributions adhere to the project's coding standards and guidelines.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
-## Contact
-
-For questions, feedback, or collaborations, you can reach out to the project maintainers:
-
-- Your Name (your.email@example.com)
-- Co-Maintainer Name (co.maintainer@example.com)
-
-Happy automating and securing!
-
