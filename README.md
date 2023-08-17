@@ -1,8 +1,6 @@
 # Cyber Security Automation Project
 
-![Project Logo](project_logo.png) <!-- You can replace this with your project logo -->
-
-Welcome to the Cyber Security Automation project! This repository contains a collection of modules designed to automate various cyber security tasks. The project aims to streamline and simplify the process of reconnaissance, scanning, and other security-related activities.
+Welcome to the Cyber Security Automation project! This repository contains a collection of modules designed to automate various cybersecurity tasks. The project aims to streamline and simplify the process of reconnaissance, scanning, and other security-related activities.
 
 ## Modules
 
