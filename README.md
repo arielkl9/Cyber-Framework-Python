@@ -44,6 +44,8 @@ To use the modules in this project, follow these steps:
 
 2. Navigate to the desired module's directory: `cd Cyber-Framework-Python`
 
-3. Run the script: `python framework.py`
+3. install the requirements 'pip install requirements.txt'
 
-4. Follow the instructions provided by the script to perform the desired task.
+4. Run the script: `python framework.py`
+
+5. Follow the instructions provided by the script to perform the desired task.
